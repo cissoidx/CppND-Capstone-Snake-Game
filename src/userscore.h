@@ -1,11 +1,7 @@
 #ifndef USERSCORE_H
 #define USERSCORE_H
 
-#include <fstream>
-#include <sstream>
 #include <string>
-#include <iostream>
-
 
 class UserScoreManager {
   public:

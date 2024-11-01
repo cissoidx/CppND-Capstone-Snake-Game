@@ -1,6 +1,10 @@
 #include "userscore.h"
 #include <vector>
 
+#include <fstream>
+#include <sstream>
+#include <iostream>
+
 UserScoreManager::UserScoreManager(std::string file_path)
     : file_path_(file_path) {}
 
