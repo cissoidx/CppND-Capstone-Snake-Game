@@ -30,6 +30,8 @@ In this project, you can build your own C++ application or extend this Snake gam
 3. Compile: `cmake .. && make`
 4. Run it: `./SnakeGame`.
 
+## New features
+1. Allow players to enter their names and save their high scores to a text file. If a player has already a record in this text file, it will be printed out at the start of the game. If the player has reached a higher score, then the score in the record will be updated. 
 
 ## CC Attribution-ShareAlike 4.0 International
 
