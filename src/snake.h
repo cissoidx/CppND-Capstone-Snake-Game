@@ -1,8 +1,11 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
+#include <memory>
 #include <vector>
 #include "SDL.h"
+
+class Game;
 
 class Snake {
  public:
@@ -18,6 +21,7 @@ class Snake {
 
   void GrowBody();
   bool SnakeCell(int x, int y);
+  void AttachToGame(std::shared_ptr<Game> game);
 
   Direction direction = Direction::kUp;
 
@@ -32,6 +36,7 @@ class Snake {
   void UpdateHead();
   void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
 
+  std::shared_ptr<Game>  _game; // game that this snake is attached to
   bool growing{false};
   int grid_width;
   int grid_height;

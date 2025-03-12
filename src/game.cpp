@@ -1,14 +1,26 @@
 #include "game.h"
 #include <iostream>
+#include <algorithm>
+#include <thread>
+
 #include "SDL.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)) {
+      random_h(0, static_cast<int>(grid_height - 1)),
+      grid_width(grid_width),
+      grid_height(grid_height) {
   PlaceFood();
 }
+
+Game::~Game() {
+  std::for_each(_threads.begin(), _threads.end(), [](std::thread &t) {
+    t.join();
+  });
+}
+
 
 void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration) {
@@ -25,7 +37,8 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food);
+    renderer.Render(snake, food, _obstacles);
+    
 
     frame_end = SDL_GetTicks();
 
@@ -65,6 +78,66 @@ void Game::PlaceFood() {
   }
 }
 
+
+void Game::InitExtra() {
+  for (size_t no = 0; no < _max_obs; no++) {
+    _obstacles.push_back(std::make_shared<Obstacle>());
+  }
+  for (auto obs : _obstacles){
+    _threads.emplace_back(std::thread(&Obstacle::run, obs));
+    obs->AttachToGame(get_shared_this());
+  }
+  snake.AttachToGame(get_shared_this());
+}
+
+
+void Game::AddObstacleToQueue(std::shared_ptr<Obstacle> obs) {
+  // add new obstacle to the end of the waiting queue
+  std::promise<void> prmsObstacleAllowedToShow;
+  std::future<void> ftrObstacleAllowedToShow = prmsObstacleAllowedToShow.get_future();
+  _waiting_obstacles.pushBack(obs, std::move(prmsObstacleAllowedToShow));
+
+  ftrObstacleAllowedToShow.wait();
+}
+
+
+void Game::PlaceObstacle(std::shared_ptr<Obstacle> obs) {
+  int x, y;
+  bool overlap = true;
+  while (overlap) {
+    // do not place at the edge
+    x = (random_w(engine) + 1) % (grid_width - 1);
+    y = (random_h(engine) + 1) % (grid_height - 1);
+
+    // snake body does not overlap obstacle
+    for (auto const &item : snake.body) {
+      if (!((item.x < x ) || (item.x > x + 2) || (item.y < y ) || (item.y > y + 2))) {
+        continue;
+      }
+    }
+
+    // snake head does not overlap obstacle
+    if (!(((int)snake.head_x < x ) || ((int)snake.head_x > x + 2) || 
+    ((int)snake.head_y < y ) || ((int)snake.head_y > y + 2))) {
+      continue;
+    }
+
+    // food does not overlap obstacle
+    if (!((food.x < x ) || (food.x > x + 2) || (food.y < y ) || (food.y > y + 2))) {
+      continue;
+    }
+
+    overlap = false;
+  }
+  obs->setPosition(x, y);
+}
+
+
+// void Game::SnakeHitObstacle() {
+
+// }
+
+
 void Game::Update() {
   if (!snake.alive) return;
 
@@ -77,6 +150,9 @@ void Game::Update() {
   if (food.x == new_x && food.y == new_y) {
     score++;
     PlaceFood();
+    if (_waiting_obstacles.getSize() > 0) {
+      _waiting_obstacles.permitEntryToFirstInQueue();
+    }
     // Grow snake and increase speed.
     snake.GrowBody();
     snake.speed += 0.02;

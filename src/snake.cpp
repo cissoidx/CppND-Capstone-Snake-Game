@@ -2,6 +2,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "game.h"
+
 void Snake::Update() {
   SDL_Point prev_cell{
       static_cast<int>(head_x),
@@ -61,6 +63,17 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) 
       alive = false;
     }
   }
+  for (auto obs : _game->GetObstacles()){
+    for (auto const &item : obs->getBody()){
+      if (current_head_cell.x == item.x && current_head_cell.y == item.y) {
+        alive = false;
+      }
+    }
+  }
+}
+
+void Snake::AttachToGame(std::shared_ptr<Game> game){
+  _game = game;
 }
 
 void Snake::GrowBody() { growing = true; }

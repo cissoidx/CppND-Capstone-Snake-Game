@@ -33,6 +33,8 @@ In this project, you can build your own C++ application or extend this Snake gam
 ## New features
 1. Allow players to enter their names and save their high scores to a text file. If a player has already a record in this text file, it will be printed out at the start of the game. If the player has reached a higher score, then the score in the record will be updated. 
 
+2. Introduce obstacles. At the start of the game, all obstacles are in a queue behind the scene. Max number of obstable is 3, which can be set in the code. if the snake eats a food and the number of obstacles in game is below 3, it sends a signal and one obstacle appears. Obstacle is a square that has a fixed size of 3. each obstacle has a life time (like 30 seconds), when it expires, the obstacle disappears and goes back to the waiting queue, i.e. the obstacle has a time counter in itself and checks if its life ends. Obstacles do not move. If the snake hit the obstacle, the game ends. An obstacle appears by randomly choosing a place, if it overlaps other stuff (snake/food), try another random place again. 
+
 ## CC Attribution-ShareAlike 4.0 International
 
 

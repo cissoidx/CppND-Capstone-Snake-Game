@@ -23,13 +23,15 @@ int main() {
 
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
   Controller controller;
-  Game game(kGridWidth, kGridHeight);
-  game.Run(controller, renderer, kMsPerFrame);
+  std::shared_ptr<Game> game = std::make_shared<Game>(kGridWidth, kGridHeight);
+  game->InitExtra();
+  // Game game(kGridWidth, kGridHeight);
+  game->Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
-  std::cout << "Score: " << game.GetScore() << "\n";
-  std::cout << "Size: " << game.GetSize() << "\n";
+  std::cout << "Score: " << game->GetScore() << "\n";
+  std::cout << "Size: " << game->GetSize() << "\n";
 
-  cscore = game.GetScore();
+  cscore = game->GetScore();
   usmgr.UpdateUserScoreRecord(cuser, cscore);
 
   return 0;
