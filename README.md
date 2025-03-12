@@ -60,7 +60,25 @@ In this project, you can build your own C++ application or extend this Snake gam
 8. Classes abstract implementation details from their interfaces.
 > Like in obstacle.h/cpp, the function names reflect the functionalities.
 
-9. 
+9. The project uses destructors appropriately.
+> In game.cpp line 18.
+
+10. The project uses move semantics to move data instead of copying it, where possible.
+> In obstacle.cpp line 18.
+
+11. The project uses smart pointers instead of raw pointers.
+> In game.h line 45.
+
+12. The project uses multithreading.
+> In game.cpp line 87.
+
+13. A promise and future is used in the project.
+> In game.cpp line 96. 
+
+14. A mutex or lock is used in the project.
+> In obstacle.cpp line 71.
+
+
 
 
 ## CC Attribution-ShareAlike 4.0 International

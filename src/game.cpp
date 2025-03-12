@@ -132,12 +132,6 @@ void Game::PlaceObstacle(std::shared_ptr<Obstacle> obs) {
   obs->setPosition(x, y);
 }
 
-
-// void Game::SnakeHitObstacle() {
-
-// }
-
-
 void Game::Update() {
   if (!snake.alive) return;
 
