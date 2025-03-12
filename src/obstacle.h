@@ -33,7 +33,7 @@ class Obstacle : public std::enable_shared_from_this<Obstacle> {
     int _x;  // x position of obstacle
     int _y;  // y position of obstacle
     float _speed; // moving speed of obstacle
-    double _life = 30000; // duration of a single simulation cycle in ms
+    const double _life = 30000; // duration of a single simulation cycle in ms
     std::chrono::time_point<std::chrono::system_clock> _last_reborn;
     void UpdateBody(); 
     

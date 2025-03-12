@@ -37,15 +37,15 @@ int WaitingObstacles::getSize() {
   return _wobstacles.size();
 }
 
-Obstacle::Obstacle(){
-  _id = _idCnt++;
-  _x = -3;
-  _y = -3;
-  for (size_t nx = 0; nx < 3; nx++){
+Obstacle::Obstacle()
+  : _id(_idCnt++), 
+    _x(-3),
+    _y(-3) {
+  for (size_t nx = 0; nx < 3; ++nx) {
     int obs_x = _x + nx;
-    for (size_t ny = 0; ny < 3; ny++){
+    for (size_t ny = 0; ny < 3; ++ny) {
       int obs_y = _y + ny;
-      SDL_Point body_cell{static_cast<int>(obs_x), static_cast<int>(obs_y)};
+      SDL_Point body_cell{ static_cast<int>(obs_x), static_cast<int>(obs_y) };
       _body.push_back(body_cell);
     }
   }

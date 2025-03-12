@@ -35,6 +35,34 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 2. Introduce obstacles. At the start of the game, all obstacles are in a queue behind the scene. Max number of obstable is 3, which can be set in the code. if the snake eats a food and the number of obstacles in game is below 3, it sends a signal and one obstacle appears. Obstacle is a square that has a fixed size of 3. each obstacle has a life time (like 30 seconds), when it expires, the obstacle disappears and goes back to the waiting queue, i.e. the obstacle has a time counter in itself and checks if its life ends. Obstacles do not move. If the snake hit the obstacle, the game ends. An obstacle appears by randomly choosing a place, if it overlaps other stuff (snake/food), try another random place again. 
 
+## Rubric points
+1. The submission must compile and run without errors on the Udacity project workspace.
+> It does.
+
+2. The project demonstrates an understanding of C++ functions and control structures.
+> In obstacle.cpp, there are some functions and control flows, like line 69, the Run function.
+
+3. The project reads data from a file and process the data, or the program writes data to a file.
+> In userscore.cpp, there is a class that does the reading and writing.
+
+4. The project accepts user input and processes the input.
+> In main.cpp line 19.
+
+5. The project uses data structures and immutable variables.
+> Like obstacle.h line 36.
+
+6. One or more classes are added to the project with appropriate access specifiers for class members.
+> In userscore.h/cpp, there is a UserScoreManager class.
+
+7. Class constructors utilize member initialization lists.
+> In obstacle.cpp line 40, there is a initialization list
+
+8. Classes abstract implementation details from their interfaces.
+> Like in obstacle.h/cpp, the function names reflect the functionalities.
+
+9. 
+
+
 ## CC Attribution-ShareAlike 4.0 International
 
 
